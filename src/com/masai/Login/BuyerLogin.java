@@ -5,9 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Scanner;
 
-import com.masai.Exception.AdminException;
 import com.masai.Exception.BuyerException;
-import com.masai.Users.Admin;
+import com.masai.Exception.SellerException;
 import com.masai.Users.Buyer;
 import com.masai.utility.DBUtil;
 
@@ -15,8 +14,13 @@ public class BuyerLogin {
 
 	public static void main(String[] args) throws BuyerException {
 
-	Scanner sc = new Scanner(System.in);
+
+		Scanner sc = new Scanner(System.in);
 		
+
+		System.out.println("Enter Buyer credentials");
+		
+		System.out.println("---------------------------");
 		
 		System.out.println("Enter username");
 		String un = sc.next();
@@ -38,7 +42,7 @@ public class BuyerLogin {
 				
 				if(um.equals(un) && pas.equals(pass)) {
 					
-					Buyer.Buyerwelcome(un);
+					Buyer.Buyerwelcome(un,pass);
 					break;
 				}
 				
@@ -51,8 +55,6 @@ public class BuyerLogin {
 
 			
 		}
-		
-		
 
 	}
 

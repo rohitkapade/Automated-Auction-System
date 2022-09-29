@@ -8,6 +8,7 @@ import java.util.Scanner;
 import com.masai.Exception.BuyerException;
 import com.masai.Exception.SellerException;
 import com.masai.Users.Buyer;
+import com.masai.Users.Seller;
 import com.masai.utility.DBUtil;
 
 public class SellerLogin {
@@ -17,7 +18,9 @@ public class SellerLogin {
 		Scanner sc = new Scanner(System.in);
 		
 
-		System.out.println("Signup as Seller");
+		System.out.println("Enter Seller credentials");
+		
+		System.out.println("---------------------------");
 		
 		System.out.println("Enter username");
 		String un = sc.next();
@@ -36,10 +39,11 @@ public class SellerLogin {
 			while(rs.next()) {
 				String um = rs.getString("sellername");
 				String pas = rs.getString("sellerpass");
+				int id = rs.getInt("sellerid");
 				
 				if(um.equals(un) && pas.equals(pass)) {
 					
-					Buyer.Buyerwelcome(un);
+					Seller.WelcomeSeller(un,pass,id);
 					break;
 				}
 				

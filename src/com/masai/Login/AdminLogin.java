@@ -16,6 +16,9 @@ public class AdminLogin {
 		
 		Scanner sc = new Scanner(System.in);
 		
+		System.out.println("Enter admin credentials");
+		
+		System.out.println("---------------------------");
 		
 		System.out.println("Enter username");
 		String un = sc.next();

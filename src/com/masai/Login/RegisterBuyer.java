@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import com.masai.Exception.BuyerException;
 import com.masai.main.Main;
 import com.masai.utility.DBUtil;
 
@@ -14,6 +15,10 @@ public class RegisterBuyer {
 
 
 		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Signup as Buyer");
+		
+		System.out.println("---------------------------");
 		
 		System.out.println("Enter name");
 		String name = sc.next();
@@ -42,9 +47,16 @@ public class RegisterBuyer {
 			if(x>0) {
 				System.out.println("Account successfully created");
 				
+				
+				
 				System.out.println("===============================");
 				
-				Main.main(args);
+				try {
+					BuyerLogin.main(args);
+				} catch (BuyerException e) {
+					
+					
+				}
 			}
 
 			
