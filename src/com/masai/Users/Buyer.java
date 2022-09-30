@@ -13,7 +13,7 @@ import com.masai.utility.DBUtil;
 
 public class Buyer {
 	
-	public static void Buyerwelcome(String name, String pass){
+	public static void Buyerwelcome(String name, String pass,int id){
 		System.out.println("Welcome "+name);
 		
 
@@ -24,6 +24,10 @@ public class Buyer {
 		System.out.println("1.View items by category");
 		System.out.println("2.View all the buyers");
 		System.out.println("3.Select items to buy");
+<<<<<<< day4
+=======
+		System.out.println("4.Log-out");
+>>>>>>> local
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -31,6 +35,7 @@ public class Buyer {
 		
 		switch(choice) {
 		case 1:
+<<<<<<< day4
 			Buyer.viewItemByCat(name,pass);
 		case 2:
 			Buyer.viewAllBuyers();
@@ -40,6 +45,23 @@ public class Buyer {
 
 
 	private static void viewItemByCat(String name, String pass) {
+=======
+			Buyer.viewItemByCat(name,pass,id);
+		case 2:
+			Buyer.viewAllBuyers(name,pass,id);
+		case 3:
+			Buyer.BuyItems(name,pass,id);
+		}
+		
+	}
+
+
+	
+
+
+
+	private static void viewItemByCat(String name, String pass,int id) {
+>>>>>>> local
 		Scanner sc = new Scanner(System.in);
 		
 		
@@ -130,6 +152,7 @@ public class Buyer {
 			count++;
 		}
 		
+<<<<<<< day4
 		Buyer.Buyerwelcome(name, pass);
 		
 	}
@@ -140,8 +163,52 @@ public class Buyer {
 	private static void viewAllBuyers() {
 		
 		
+=======
+		Buyer.Buyerwelcome(name, pass, id);
+>>>>>>> local
 		
 	}
+	
+	
+	
+	
+	private static void viewAllBuyers(String name, String pass, int id) {
+		
+		try {
+			Connection conn = DBUtil.provideConnection();
+			
+			PreparedStatement ps = conn.prepareStatement("select * from buyer");
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				int id = rs.getInt("buyerid");
+				String name1 = rs.getString("buyername");
+				String mail = rs.getString("buyermail");
+				
+				
+				System.out.println("Name : "+name1);
+				System.out.println("BuyerId : "+id);
+				System.out.println("Mail : "+mail);
+				
+			}
+			
+			Buyer.Buyerwelcome(name, pass, id);
+			
+		}
+		catch(SQLException se){
+			
+		}
+		
+	}
+	
+	
+	private static void BuyItems(String name, String pass, int id) {
+		
+		
+	}
+	
 	
 
 	
