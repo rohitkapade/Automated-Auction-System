@@ -3,11 +3,13 @@ package com.masai.Login;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.masai.Exception.BuyerException;
 import com.masai.Exception.SellerException;
 import com.masai.Users.Buyer;
+import com.masai.main.Main;
 import com.masai.utility.DBUtil;
 
 public class BuyerLogin {
@@ -45,11 +47,15 @@ public class BuyerLogin {
 					Buyer.Buyerwelcome(un,pass);
 					break;
 				}
+				else {
+					System.out.println("Wrong credentials");
+					Main.main(args);
+				}
 				
 			}
 			
 			
-		} catch (Exception e ) {
+		} catch (SQLException e ) {
 			
 			throw new BuyerException("Invalid credentials");
 

@@ -258,7 +258,7 @@ public class Seller {
 			}
 		
 			
-			
+			Seller.WelcomeSeller(name, pass, id);
 			
 		}
 		catch(Exception e) {
