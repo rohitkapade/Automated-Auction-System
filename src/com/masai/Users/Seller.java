@@ -43,6 +43,9 @@ public class Seller {
 		else if(cho==4) {
 			Seller.ViewList(name,pass,id);
 		}
+		else if(cho==5) {
+			Seller.SoldItemsHistory(name,pass,id);
+		}
 		else if(cho==6) {
 			 Main.main(null);
 		}
@@ -50,6 +53,50 @@ public class Seller {
 	}
 
 	
+
+
+
+
+
+	private static void SoldItemsHistory(String name, String pass, int id) {
+
+		try {
+			Connection conn = DBUtil.provideConnection();
+			
+			PreparedStatement ps = conn.prepareStatement("select * from soldProducts,seller,buyer where  soldProducts.buyerId is not null and soldProducts.buyerId=buyer.buyerId and soldProducts.sellerId=seller.sellerId order by productId");
+			
+			ResultSet rs = ps.executeQuery();
+			
+			System.out.println("------------------------------");
+			
+			while(rs.next()) {
+				 
+				
+				int pid = rs.getInt("ProductId");
+				String pname = rs.getString("productName");
+				String sname = rs.getString("sellerName");
+				String bname = rs.getString("buyerName");
+				
+				System.out.println("ProductId : "+pid);
+				System.out.println("Product Name : "+pname);
+				System.out.println("Seller name : "+sname);
+				System.out.println("Buyer name : "+bname);
+				
+				System.out.println("===========================");
+				
+				
+			}
+			
+			Seller.WelcomeSeller(name, pass, id);
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+
 
 
 
@@ -77,12 +124,19 @@ public class Seller {
 				Connection conn = DBUtil.provideConnection();
 				
 				PreparedStatement ps = conn.prepareStatement("update productForSale set productPrice=? where productId=? and sellerId=?");
+				PreparedStatement ps1 = conn.prepareStatement("update soldProducts set productPrice=? where productId=? and sellerId=?");
 				
 				ps.setInt(1, price);
 				ps.setInt(2, pid);
 				ps.setInt(3, id);
 				
+				ps1.setInt(1, price);
+				ps1.setInt(2, pid);
+				ps1.setInt(3, id);
+				
+				
 				int x =  ps.executeUpdate();
+				ps1.executeUpdate();
 				
 				if(x>0) {
 					System.out.println("Price updated successfully");
@@ -107,12 +161,19 @@ public class Seller {
 				Connection conn = DBUtil.provideConnection();
 				
 				PreparedStatement ps = conn.prepareStatement("update productForSale set quantity=? where productId=? and sellerId=?");
+				PreparedStatement ps1 = conn.prepareStatement("update soldProducts set quantity=? where productId=? and sellerId=?");
 				
 				ps.setInt(1, quantity);
 				ps.setInt(2, pid);
 				ps.setInt(3, id);
 				
+				ps1.setInt(1, quantity);
+				ps1.setInt(2, pid);
+				ps1.setInt(3, id);
+				
+				
 				int x =  ps.executeUpdate();
+				ps1.executeUpdate();
 				
 				if(x>0) {
 					System.out.println("Quantity updated successfully");
@@ -140,6 +201,8 @@ public class Seller {
 		
 		int i = 0;
 		while(i<n) {
+			System.out.println("Enter detail of product "+(i+1));
+			
 			System.out.println("Enter product category");
 			String cat = sc.next();
 			
@@ -156,6 +219,7 @@ public class Seller {
 				Connection conn = DBUtil.provideConnection();
 				
 				PreparedStatement ps = conn.prepareStatement("insert into productForSale(productcategory,productName,productPrice,quantity,sellerId)values(?,?,?,?,?)");
+				PreparedStatement ps1 = conn.prepareStatement("insert into soldProducts(productcategory,productName,productPrice,quantity,sellerId)values(?,?,?,?,?)");
 				
 				ps.setString(1,cat);
 				ps.setString(2, pro);
@@ -163,11 +227,20 @@ public class Seller {
 				ps.setInt(4, quan);
 				ps.setInt(5, id);
 				
+				
+				ps1.setString(1,cat);
+				ps1.setString(2, pro);
+				ps1.setInt(3, price);
+				ps1.setInt(4, quan);
+				ps1.setInt(5, id);
+				
 				 x = ps.executeUpdate();
+				 ps1.executeUpdate();
 				
 			}
 			catch(SQLException e) {
 				System.out.println("error");
+				Seller.WelcomeSeller(name, pass, id);
 				
 			}
 			
@@ -202,8 +275,12 @@ public class Seller {
 			ps.setInt(1, pid);
 			ps.setInt(2, id);
 			
-			int x = ps.executeUpdate();
+			PreparedStatement ps1 = conn.prepareStatement("delete from soldProducts where productId=? and sellerId=?");
+			ps1.setInt(1, pid);
+			ps1.setInt(2, id);
 			
+			int x = ps.executeUpdate();
+			ps1.executeUpdate();
 			
 			if(x>0) {
 				System.out.println("Product successfully deleted");

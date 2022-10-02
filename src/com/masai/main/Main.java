@@ -14,6 +14,9 @@ public class Main {
 
 	public static void main(String[] args) {
 
+		System.out.println("Welcome to homepage of Automated Auction System");
+		
+		
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("1. Login as Admin");
@@ -33,14 +36,15 @@ public class Main {
 			try {
 				BuyerLogin.main(args);
 			} catch (BuyerException e) {
-				System.out.println(e.getMessage());
+				e.getMessage();
+				
 			}
 			
 			
 		}
 		else if(choice==3) {
 			
-			try {
+			try {  
 				SellerLogin.main(args);
 			} catch (SellerException e) {
 				System.out.println(e.getMessage());

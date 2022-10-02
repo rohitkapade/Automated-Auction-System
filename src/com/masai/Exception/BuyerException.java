@@ -1,13 +1,20 @@
 package com.masai.Exception;
 
+import com.masai.main.Main;
+
 public class BuyerException extends Exception {
 
-	BuyerException(){
+	public BuyerException(){
 		
 	}
 	
 	public BuyerException(String str){
 		super(str);
+		
+		
+		
+		
+		Main.main(null);
 	}
 
 }

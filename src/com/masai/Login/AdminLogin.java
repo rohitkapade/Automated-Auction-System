@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import com.masai.Exception.AdminException;
 import com.masai.Users.Admin;
+import com.masai.main.Main;
 import com.masai.utility.DBUtil;
 
 public class AdminLogin {
@@ -40,7 +41,7 @@ public class AdminLogin {
 				
 				if(um.equals(un) && pas.equals(pass)) {
 					
-					Admin.main(args);
+					Admin.WecomeAdmin(un,pass);
 					break;
 				}
 				else {
@@ -54,8 +55,9 @@ public class AdminLogin {
 			
 		} catch (Exception e ) {
 			
-			System.out.println("wrong credentials");
+			System.out.println("Wrong credentials. Try again with valid credentials");
 			
+			Main.main(args);
 		}
 		
 	

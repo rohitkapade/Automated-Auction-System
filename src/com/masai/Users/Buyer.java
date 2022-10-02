@@ -23,34 +23,30 @@ public class Buyer {
 		
 		System.out.println("1.View items by category");
 		System.out.println("2.View all the buyers");
-		System.out.println("3.Select items to buy");
-<<<<<<< day4
-=======
-		System.out.println("4.Log-out");
->>>>>>> local
+		System.out.println("3.View all the items");
+		System.out.println("4.Select item to buy");
+		System.out.println("5.Log-out");
 		
 		Scanner sc = new Scanner(System.in);
 		
 		int choice = sc.nextInt();
 		
 		switch(choice) {
-		case 1:
-<<<<<<< day4
-			Buyer.viewItemByCat(name,pass);
-		case 2:
-			Buyer.viewAllBuyers();
-		}
-	}
-
-
-
-	private static void viewItemByCat(String name, String pass) {
-=======
+		case 1:{
 			Buyer.viewItemByCat(name,pass,id);
-		case 2:
+		}
+		case 2:{
 			Buyer.viewAllBuyers(name,pass,id);
-		case 3:
+		}
+		case 3:{
+			Buyer.ViewAllItems(name,pass,id);
+		}
+		case 4:{
 			Buyer.BuyItems(name,pass,id);
+		}
+		case 5:{
+			Main.main(null);
+		}
 		}
 		
 	}
@@ -60,8 +56,14 @@ public class Buyer {
 
 
 
+	
+
+
+
+
+
+
 	private static void viewItemByCat(String name, String pass,int id) {
->>>>>>> local
 		Scanner sc = new Scanner(System.in);
 		
 		
@@ -152,20 +154,7 @@ public class Buyer {
 			count++;
 		}
 		
-<<<<<<< day4
-		Buyer.Buyerwelcome(name, pass);
-		
-	}
-	
-	
-	
-	
-	private static void viewAllBuyers() {
-		
-		
-=======
 		Buyer.Buyerwelcome(name, pass, id);
->>>>>>> local
 		
 	}
 	
@@ -183,14 +172,16 @@ public class Buyer {
 			
 			while(rs.next()) {
 				
-				int id = rs.getInt("buyerid");
+				int bid = rs.getInt("buyerid");
 				String name1 = rs.getString("buyername");
 				String mail = rs.getString("buyermail");
 				
 				
 				System.out.println("Name : "+name1);
-				System.out.println("BuyerId : "+id);
+				System.out.println("BuyerId : "+bid);
 				System.out.println("Mail : "+mail);
+				
+				System.out.println("------------------------");
 				
 			}
 			
@@ -204,8 +195,89 @@ public class Buyer {
 	}
 	
 	
-	private static void BuyItems(String name, String pass, int id) {
+	private static void BuyItems(String name, String pass, int bid) {
 		
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Enter the productid to buy");
+		int pid = sc.nextInt();
+		
+		
+		try {
+			Connection conn = DBUtil.provideConnection();
+			
+			PreparedStatement ps = conn.prepareStatement("update productForSale set sellerId=null , buyerId=? where productId=?");
+			PreparedStatement ps1 = conn.prepareStatement("update soldProducts set buyerId=? where productId=?");
+			
+			ps.setInt(1, bid);
+			ps.setInt(2, pid);
+			ps1.setInt(1, bid);
+			ps1.setInt(2, pid);
+			
+			int q = ps.executeUpdate();
+			int r = ps1.executeUpdate();
+			
+			if(q>0 && r>0) {
+				System.out.println("Product Bought successfully");
+				
+				System.out.println("-------------------------------");
+				
+				Buyer.Buyerwelcome(name, pass, pid);
+			}
+			else {
+				System.out.println("Try again with valid productId");
+			}
+			
+			
+			
+		}
+		catch (Exception ex) {
+			
+			System.out.println("Try again with valid product id");
+		}
+		
+		
+		
+	}
+	
+	
+	private static void ViewAllItems(String name, String pass, int id) {
+		
+		Connection conn1 = DBUtil.provideConnection();
+		
+		PreparedStatement ps1;
+		try {
+			ps1 = conn1.prepareStatement("select * from productForSale ");
+			
+			
+			ResultSet rs = ps1.executeQuery();
+			
+			while(rs.next()) {
+				
+				int pid= rs.getInt("productId");
+				String cate = rs.getString("productcategory");
+				String pro = rs.getString("productName");
+				int pri = rs.getInt("productPrice");
+				int quan = rs.getInt("quantity");
+				int sid = rs.getInt("sellerId");
+				
+				
+				System.out.println("Productid : "+pid);
+				System.out.println("Product category : "+cate);
+				System.out.println("Product name : "+pro);
+				System.out.println("Price : "+pri);
+				System.out.println("Quantity : "+quan);
+				System.out.println("Seller-Id : "+sid);
+				
+				System.out.println("==========================");
+				
+			}
+	
+			
+		} catch (SQLException e) {
+			
+			System.out.println("Error in printng category product");
+		}
 		
 	}
 	

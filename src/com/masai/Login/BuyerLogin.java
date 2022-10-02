@@ -3,7 +3,6 @@ package com.masai.Login;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.masai.Exception.BuyerException;
@@ -33,32 +32,47 @@ public class BuyerLogin {
 		
 		Connection conn = DBUtil.provideConnection();
 		
+		boolean flag = true;
+		
 		try {
 			PreparedStatement ps = conn.prepareStatement("select * from buyer");
 			
 			ResultSet rs = ps.executeQuery();
 			
+			
 			while(rs.next()) {
 				String um = rs.getString("buyername");
 				String pas = rs.getString("buyerpass");
+				int id = rs.getInt("buyerid");
+				
 				
 				if(um.equals(un) && pas.equals(pass)) {
 					
-					Buyer.Buyerwelcome(un,pass);
+					
+					  
+					Buyer.Buyerwelcome(un,pass,id);
+					flag = false;
 					break;
+					
 				}
-				else {
-					System.out.println("Wrong credentials");
-					Main.main(args);
-				}
+				
 				
 			}
 			
+			if(flag) {
+				System.out.println("Wrong credentials, try again");
+				throw new  BuyerException("Invalid credentials");
+			}
+	
 			
-		} catch (SQLException e ) {
+		} catch (Exception e ) {
 			
-			throw new BuyerException("Invalid credentials");
-
+			
+			System.out.println("Invalid credentials. Try again ..");
+			Main.main(args);
+			
+		    
+			
 			
 		}
 

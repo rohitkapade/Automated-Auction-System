@@ -31,6 +31,8 @@ public class SellerLogin {
 		
 		Connection conn = DBUtil.provideConnection();
 		
+		boolean flag = true;
+		
 		try {
 			PreparedStatement ps = conn.prepareStatement("select * from seller");
 			
@@ -41,12 +43,19 @@ public class SellerLogin {
 				String pas = rs.getString("sellerpass");
 				int id = rs.getInt("sellerid");
 				
+//				System.out.println(um+" "+pas);
+				
 				if(um.equals(un) && pas.equals(pass)) {
 					
 					Seller.WelcomeSeller(un,pass,id);
+					flag=false;
 					break;
 				}
-				
+			}
+			
+			if(flag) {
+				System.out.println("Wrong credentials, try again");
+				throw new  SellerException("Invalid credentials");
 			}
 			
 			
