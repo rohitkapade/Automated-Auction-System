@@ -1,5 +1,8 @@
 # Automated-Auction-System
 
+<h2>About</h2>
+Project aims to faciltate buying and selling of commodities digitally. It is console based application with minimum usage tech stack like mysql and Spring tool suit.
+
 
 
 
